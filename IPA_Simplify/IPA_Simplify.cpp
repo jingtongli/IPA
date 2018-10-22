@@ -9,6 +9,7 @@
 #include <iostream>
 
 
+
 int main()
 {
 	// Loading images
