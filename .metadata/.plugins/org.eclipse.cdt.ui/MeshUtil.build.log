@@ -1,0 +1,29 @@
+07:36:14 **** Build of configuration Default for project MeshUtil ****
+make all 
+[0;32m Compile MeshDivide.cpp ... [0m
+g++ -fPIC  -O3 -static-libgcc  -fopenmp -fvisibility=hidden -L/usr/local/lib -std=c++11  -c MeshDivide.cpp  -I//usr/local/include/opencv4// -I/usr/local/include/OpenMesh  -I/usr/include/eigen3/
+[0;32m... DONE[0m
+[0;32m Compile MeshSimplify.cpp ... [0m
+g++ -fPIC  -O3 -static-libgcc  -fopenmp -fvisibility=hidden -L/usr/local/lib -std=c++11  -c MeshSimplify.cpp  -I//usr/local/include/opencv4// -I/usr/local/include/OpenMesh  -I/usr/include/eigen3/
+[0;32m... DONE[0m
+[0;32m Compile MeshDecimater.cpp ... [0m
+g++ -fPIC  -O3 -static-libgcc  -fopenmp -fvisibility=hidden -L/usr/local/lib -std=c++11  -c MeshDecimater.cpp  -I//usr/local/include/opencv4// -I/usr/local/include/OpenMesh  -I/usr/include/eigen3/
+[0;32m... DONE[0m
+[0;32m Compile MeshFilter.cpp ... [0m
+g++ -fPIC  -O3 -static-libgcc  -fopenmp -fvisibility=hidden -L/usr/local/lib -std=c++11  -c MeshFilter.cpp  -I//usr/local/include/opencv4// -I/usr/local/include/OpenMesh  -I/usr/include/eigen3/
+[0;32m... DONE[0m
+[0;32m Compile MeshGeom.cpp ... [0m
+g++ -fPIC  -O3 -static-libgcc  -fopenmp -fvisibility=hidden -L/usr/local/lib -std=c++11  -c MeshGeom.cpp  -I//usr/local/include/opencv4// -I/usr/local/include/OpenMesh  -I/usr/include/eigen3/
+[0;32m... DONE[0m
+[0;32m Compile MeshIO.cpp ... [0m
+g++ -fPIC  -O3 -static-libgcc  -fopenmp -fvisibility=hidden -L/usr/local/lib -std=c++11  -c MeshIO.cpp  -I//usr/local/include/opencv4// -I/usr/local/include/OpenMesh  -I/usr/include/eigen3/
+[0;32m... DONE[0m
+[0;32m Compile MeshConv.cpp ... [0m
+g++ -fPIC  -O3 -static-libgcc  -fopenmp -fvisibility=hidden -L/usr/local/lib -std=c++11  -c MeshConv.cpp  -I//usr/local/include/opencv4// -I/usr/local/include/OpenMesh  -I/usr/include/eigen3/
+[0;32m... DONE[0m
+[0;32m Archive...[0m
+ar rcs libmeshutil.a MeshDivide.o MeshSimplify.o MeshDecimater.o MeshFilter.o MeshGeom.o MeshIO.o MeshConv.o
+[0;32m...Done[0m
+
+07:36:39 Build Finished. 0 errors, 0 warnings. (took 25s.91ms)
+

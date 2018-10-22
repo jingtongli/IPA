@@ -1,0 +1,84 @@
+#include "../Ori/Orientation.h"
+#include "../MeshUtil/MyMesh.h"
+#include "../MeshUtil/MeshIO.h"
+#include "../MeshUtil/MeshSimplify.h"
+#include "../MeshUtil/MeshDecimater.h"
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/opencv.hpp>
+#include <string>
+#include <iostream>
+
+
+int main()
+{
+	// Loading images
+	std::string imgloadname("/home/jingtongli/Desktop/ipa/data/0.jpg");
+	cv::Mat img=cv::imread(imgloadname);
+
+	// Edge images
+	cv::Mat dstimg, edge;
+	//dstimg.create(img.size(), img.type());
+	cv::blur(img, edge, cv::Size(3, 3));
+	cv::Canny(edge, dstimg, 100, 200, 3);
+
+	// Display images
+	cv::namedWindow("Original");
+	cv::imshow("Original",img);
+	cv::namedWindow("Edge");
+	cv::imshow("Edge", dstimg);
+
+	// Loading ori
+	std::string oriloadname("/home/jingtongli/Desktop/ipa/data/0.ori");
+	Orientation ori(oriloadname);
+
+	// Get ori
+	Eigen::Vector3d ori_z(3,1);
+	Eigen::MatrixXd ori_P(3,4);
+	ori_z << ori.getR()(2,0),ori.getR()(2,1),ori.getR()(2,2);
+	ori_P << ori.getP();
+	std::cout << ori_z << ori_P << std::endl;
+
+	// Loading mesh
+	MyMesh mesh;
+	std::string meshloadname("/home/jingtongli/Desktop/ipa/data/Mesh_cut.ply");
+	MeshIO::readMesh(mesh, meshloadname, false, false);
+
+	// Decimate mesh
+	MeshDecimater::DecimaterQuadricT(mesh,1e-8,0.5);
+
+	// Request vertex and face normals
+    mesh.request_vertex_normals();
+    mesh.request_face_normals();
+
+	// Assure we have vertex normals
+    if (!mesh.has_vertex_normals())
+    {
+    	std::cerr << "ERROR: Standard vertex property 'Normals' not available!\n";
+	    return 1;
+	}
+
+    // Update normals
+    mesh.update_normals();
+
+    // Dispose the face normals
+    mesh.release_face_normals();
+
+    float angle;
+    for (MyMesh::VertexIter v_it = mesh.vertices_begin();
+         v_it != mesh.vertices_end(); ++v_it)
+    {
+      std::cout << "Vertex #" << *v_it << ": " << mesh.point( *v_it );
+      //angle = ori_z+mesh.normal(*v_it);
+      std::cout << " has normal: " << mesh.normal( *v_it ) << std::endl;
+    }
+
+	// Write mesh
+	std::string meshsavename("/home/jingtongli/Desktop/ipa/data/Mesh_out.ply");
+	MeshIO::writeMesh(mesh, meshsavename, false, false);
+
+	std::cout<<std::endl<<"Finished";
+
+	cv::waitKey(0);
+
+	return 1;
+}

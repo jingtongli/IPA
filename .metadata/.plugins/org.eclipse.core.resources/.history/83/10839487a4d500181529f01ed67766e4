@@ -1,0 +1,16 @@
+#include "Orientation.h"
+#include <iostream>
+
+int main()
+{
+    	Orientation myfirstori;
+	std::string name("../data/0.ori");
+	//myfirstori.writeFile(name);
+	myfirstori.readFile(name);
+	Eigen::Vector3d vec(3,1); vec<< 4,5,6;
+	myfirstori.setC(vec);
+	myfirstori.writeFile("../data/kk.ori");
+
+	std::cout<<myfirstori.getR()<<"Finished";
+
+}

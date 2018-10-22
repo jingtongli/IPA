@@ -1,0 +1,163 @@
+
+cc_green="\033[0;32m"
+cc_blue="\033[0;34m"
+cc_nocolor="\033[0m"
+
+# compiler flags
+CC += -fopenmp
+# Base Paths
+MODE = release
+
+BUILDTYPE := CPUBASIC
+USEOSG :=  yes
+
+USER=$(shell whoami)
+ifeq ($(USER), mathias)
+BASEPATH := /home/mathias/workspace/urbanup
+HOMEPATH := /home/mathias/
+LIBPATH := /home/mathias/workspace/urbanup/lib
+BASELIBPATH :=  -L${LIBPATH} 
+endif
+ifeq ($(USER), mathiaro)
+BASEPATH := /cluster/home/mathiaro/workspace/urbanup
+HOMEPATH := /cluster/home/mathiaro/
+LIBPATH := /cluster/home/mathiaro/workspace/urbanup/lib
+BASELIBPATH :=  -L${LIBPATH} 
+endif
+ifeq ($(USER), jingtongli)
+BASEPATH := /home/jingtongli/Desktop/ipa/
+HOMEPATH := /home/jingtongli/Desktop/ipa/
+LIBPATH := /home/jingtongli/Desktop/ipa/lib
+BASELIBPATH :=  -L${LIBPATH}
+endif
+
+ifeq ($(MODE), debug)
+GG = -g
+endif
+CC = g++ -fPIC $(GG) -O3 -static-libgcc  -fopenmp -fvisibility=hidden -L/usr/local/lib -std=c++11
+
+# Openmesh
+ifeq ($(USER), mathiaro)
+OPENMESHINCPATH := -I/$(HOMEPATH)Thirdparty/OpenMesh/OpenMesh-6.2/Release/include
+OPENMESHLIBPATH :=  $(HOMEPATH)Thirdparty/OpenMesh/OpenMesh-6.2/Release/lib/libOpenMeshCore.a $(HOMEPATH)Thirdparty/OpenMesh/OpenMesh-6.2/Release/lib/libOpenMeshTools.a
+endif
+ifeq ($(USER), mathias)
+OPENMESHINCPATH := -I/$(HOMEPATH)Thirdparty/OpenMesh/OpenMesh-6.2/Release/include
+OPENMESHLIBPATH := /home/jingtongli/Program/OpenMesh-7.1/Release/lib $(HOMEPATH)Thirdparty/OpenMesh/OpenMesh-6.2/Release/lib/libOpenMeshTools.a
+endif
+ifeq ($(USER), jingtongli)
+OPENMESHINCPATH := -I/usr/local/include/OpenMesh
+OPENMESHLIBPATH := /usr/local/lib/libOpenMeshCore.a /usr/local/lib/libOpenMeshTools.a
+BASELIBPATH :=  -L${LIBPATH}
+endif
+
+
+
+CLIPPERINCPATH:=-I/home/mathias/Thirdparty/clipper/Release/include/polyclipping
+CLIPPERLIBPATH:=-L/home/mathias/Thirdparty/clipper/Release/lib -lpolyclipping
+
+# LAS 
+ifeq ($(USER), mathias)
+LASINCPATH := -I/$(HOMEPATH)/Thirdparty/libLAS-1.8.1/Release/include
+LASLIBPATH := -L/$(HOMEPATH)/Thirdparty/libLAS-1.8.1/Release/lib -llas
+endif
+ifeq ($(USER), mblaha)
+LASINCPATH := -I/$(HOMEPATH)Thirdparty/boost_1_61_0/release/include 
+LASLIBPATH := $(HOMEPATH)Thirdparty/boost_1_61_0/release/lib/
+endif
+
+# BOOST
+ifeq ($(USER), mathias)
+BOOSTINCPATH := -I/$(HOMEPATH)Thirdparty/boost_1_61_0/release/include 
+BOOSTLIBPATH := $(HOMEPATH)Thirdparty/boost_1_61_0/release/lib/
+BOOSTFILESYSTEMLIBPATHDYN := -L/$(BOOSTLIBPATH) -lboost_filesystem -lboost_system
+BOOSTFILESYSTEMLIBPATHSTAT := $(BOOSTLIBPATH)/libboost_filesystem.a  $(BOOSTLIBPATH)/libboost_system.a
+BOOSTSERIALIZATIONLIBPATHSTAT :=  $(BOOSTLIBPATH)/libboost_serialization.a
+BOOSTIONIOSTREAMLIBPATHSTAT := $(BOOSTLIBPATH)/libboost_iostreams.a -lz
+BOOSTOPTIONSLIBPATH := -L/$(BOOSTLIBPATH) -lboost_program_options
+BOOSTOPTIONSLIBPATHSTAT := /$(BOOSTLIBPATH)/libboost_program_options.a
+endif
+ifeq ($(USER), mathiaro)
+BOOSTINCPATH := -I/cluster/apps/boost/1.62.0/x86_64/gcc_4.8.2/serial/include
+BOOSTLIBPATH := /cluster/apps/boost/1.62.0/x86_64/gcc_4.8.2/serial/lib64
+BOOSTFILESYSTEMLIBPATHSTAT := -L/$(BOOSTLIBPATH) -lboost_filesystem -lboost_system
+endif
+ifeq ($(USER), jingtongli)
+BOOSTFILESYSTEMLIBPATHSTAT := -lboost_filesystem -lboost_system
+endif
+
+# OSG
+ifeq ($(USER), mathias)
+OSGINCPATH := -I/$(HOMEPATH)/Thirdparty/openscenegraph/OpenSceneGraph/Release/include
+OSGLIBPATH := -L/$(HOMEPATH)/Thirdparty/openscenegraph/OpenSceneGraph/Release/lib64
+endif
+ifeq ($(USER), mathiaro)
+OSGINCPATH := -I/$(HOMEPATH)/Thirdparty/openscenegraph/OpenSceneGraph/Release/include
+OSGLIBPATH := -L/$(HOMEPATH)/Thirdparty/openscenegraph/OpenSceneGraph/Release/lib64
+endif
+
+# Eigen
+ifeq ($(USER), mathiaro)
+EIGENINCPATH := -I/cluster/apps/eigen/3.2.1/x86_64/gcc_4.8.2/serial/include/eigen3
+endif
+ifeq ($(USER), mathias)
+EIGENINCPATH := -I/usr/include/eigen3/
+endif
+ifeq ($(USER), jingtongli)
+EIGENINCPATH := -I/usr/include/eigen3/
+endif
+
+# Embree
+ifeq ($(USER), mathias)
+EMBREEINCPATH := -I/$(HOMEPATH)Thirdparty/embree-2.11.0.x86_64.linux/include -I/home/mathias/Thirdparty/tbb/tbb2017_20170412ossi/include
+EMBREELIBPATH := -L/$(HOMEPATH)Thirdparty/embree-2.11.0.x86_64.linux/lib -lembree -L/home/mathias/Thirdparty/tbb/tbb2017_20170412oss/lib/ -ltbb
+endif
+ifeq ($(USER), mathiaro)
+EMBREEINCPATH := -I/$(HOMEPATH)Thirdparty/embree/embree-2.11.0.x86_64.linux/include -I/$(HOMEPATH)Thirdparty/tbb/tbb2017_20170412oss/include
+EMBREELIBPATH := -L/$(HOMEPATH)Thirdparty/embree/embree-2.11.0.x86_64.linux/lib -lembree -Wl,-rpath=/cluster/home/mathiaro/Thirdparty/embree/embree-2.11.0.x86_64.linux/lib -ltbb
+endif
+
+
+# Choose wich OCV you would like to use 
+ifeq ($(USER), mathiaro)
+OPENCVSTATICPATH := $(HOMEPATH)/Thirdparty/opencv/opencv-3.1.0/Release/
+OPENCVDYNAMICPATH :=  $(HOMEPATH)/Thirdparty/opencv/opencv-3.1.0/Release/
+endif
+ifeq ($(USER), mathias)
+OPENCVSTATICPATH := $(HOMEPATH)/Thirdparty/opencv/opencv-3.1.0/ReleaseCpu/
+OPENCVDYNAMICPATH :=  $(HOMEPATH)/Thirdparty/opencv/opencv-3.1.0/ReleaseCpu/
+endif
+ifeq ($(USER), jingtongli)
+OPENCVSTATICPATH := /usr/local/include/opencv4/
+OPENCVDYNAMICPATH := /usr/local/include/opencv4/
+endif
+
+staticocv:=no
+ifeq ($(staticocv), no)
+OPENCVLIBPATH := -L/$(OPENCVDYNAMICPATH)/ 
+OPENCVINCPATH := -I/$(OPENCVDYNAMICPATH)/
+LIBOCVCORE := -lopencv_core
+LIBOCVCALIB3D := -lopencv_calib3d
+LIBOCVIMGPROC := -lopencv_imgproc 
+LIBOCVCONTRIB := -lopencv_contrib
+LIBOCVOBJDETECT := -lopencv_objdetect
+LIBOCVHIGHGUI := -lopencv_highgui -lopencv_imgcodecs
+LIBOCVGPU := -lopencv_gpu
+else
+OPENCVINCPATH := -I/$(OPENCVDYNAMICPATH)/include
+LIBOCVCORE := $(OPENCVSTATICPATH)/lib/libopencv_core.a -ldl
+LIBOCVCALIB3D := $(OPENCVSTATICPATH)/lib/libopencv_calib3d.a
+LIBOCVIMGPROC := $(OPENCVSTATICPATH)/lib/libopencv_imgproc.a
+LIBOCVCONTRIB := $(OPENCVSTATICPATH)/lib/libopencv_contrib.a
+LIBOCVOBJDETECT := $(OPENCVSTATICPATH)/lib/libopencv_objdetect.a
+LIBFEATURE2D := $(OPENCVSTATICPATH)/lib/libopencv_features2d.a
+LIBOCVOBJDETECT :=
+LIBOCVHIGHGUI := $(OPENCVSTATICPATH)/lib/libopencv_highgui.a $(OPENCVSTATICPATH)/lib/libopencv_imgcodecs.a -lz $(OPENCVSTATICPATH)/lib/libopencv_imgcodecs.a -pthread -lgtk-3 -lgdk-3 -latk-1.0 -lgio-2.0 -lpangoft2-1.0 -lpangocairo-1.0 -lgdk_pixbuf-2.0 -lcairo -lpango-1.0 -lfreetype -lfontconfig -lgobject-2.0 -lgmodule-2.0 -lgthread-2.0 -lrt -lglib-2.0
+LIBOCVML :=  $(OPENCVSTATICPATH)/lib/libopencv_ml.a 
+LIBOCVML := 
+LIBOCVVIDEO := $(OPENCVSTATICPATH)/lib/libopencv_video.a $(OPENCVSTATICPATH)/lib/libopencv_videoio.a
+#LIBOCVVIDEO :=
+LIBOCVGPU := $(OPENCVSTATICPATH)/lib/libopencv_gpu.a
+LIBOCVGPU :=
+LIBOCVEXTRA := -lpng -ltiff -lz -ljpeg 
+endif

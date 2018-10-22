@@ -1,0 +1,1 @@
+../data/Mesh_cut.ply

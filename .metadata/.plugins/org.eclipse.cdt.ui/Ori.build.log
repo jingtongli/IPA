@@ -1,0 +1,15 @@
+07:36:39 **** Incremental Build of configuration Default for project Ori ****
+make all 
+[0;32m Compile test_ori.cpp ... [0m
+g++ -fPIC  -O3 -static-libgcc  -fopenmp -fvisibility=hidden -L/usr/local/lib -std=c++11  -c test_ori.cpp  -I//usr/local/include/opencv4// -I/usr/include/eigen3/  -I/usr/local/include/OpenMesh 
+[0;32m... DONE[0m
+[0;32m Archive...[0m
+ar rcs libprsori.a GeomUtil.o Orientation.o OriGeom.o OriListIO.o
+[0;32m...Done[0m
+[0;32mLink test_ori...[0m
+g++ -fPIC  -O3 -static-libgcc  -fopenmp -fvisibility=hidden -L/usr/local/lib -std=c++11  -o test_ori test_ori.o GeomUtil.o Orientation.o OriGeom.o OriListIO.o -L/home/jingtongli/Desktop/ipa/lib  -L//usr/local/include/opencv4//  -lopencv_highgui -lopencv_imgcodecs -lopencv_calib3d -lopencv_imgproc    -lopencv_core   /usr/local/lib/libOpenMeshCore.a /usr/local/lib/libOpenMeshTools.a -lboost_filesystem -lboost_system
+#@mv test_ori ./tests
+[0;32m...Done [0m
+
+07:36:40 Build Finished. 0 errors, 0 warnings. (took 1s.770ms)
+

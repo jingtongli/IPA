@@ -1,0 +1,11 @@
+#include <iostream>
+#include <eigen3/Eigen/Dense>
+
+int main()
+{
+	double a[]={1,2};
+	Eigen::Vecter3d v(3,1);
+	std::cout<<v<<std::endl;
+
+	return 0;
+}

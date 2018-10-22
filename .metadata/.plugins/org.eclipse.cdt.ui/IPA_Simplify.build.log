@@ -1,0 +1,12 @@
+10:58:57 **** Build of configuration Default for project IPA_Simplify ****
+make all 
+[0;32m Compile IPA_Simplify.cpp ... [0m
+g++ -fPIC  -O3 -static-libgcc  -fopenmp -fvisibility=hidden -L/usr/local/lib -std=c++11  -c IPA_Simplify.cpp  -I//usr/local/include/opencv4// -I/usr/include/eigen3/  -I/usr/local/include/OpenMesh 
+[0;32m... DONE[0m
+[0;32mLink IPA_Simplify...[0m
+g++ -fPIC  -O3 -static-libgcc  -fopenmp -fvisibility=hidden -L/usr/local/lib -std=c++11  -o test_simplify IPA_Simplify.o  -L/home/jingtongli/Desktop/ipa/lib   -lprsori -lmeshutil  -L//usr/local/include/opencv4//  -lopencv_highgui -lopencv_imgcodecs -lopencv_calib3d -lopencv_imgproc    -lopencv_core   /usr/local/lib/libOpenMeshCore.a /usr/local/lib/libOpenMeshTools.a -lboost_filesystem -lboost_system
+#@mv test_ori ./tests
+[0;32m...Done [0m
+
+10:59:05 Build Finished. 0 errors, 0 warnings. (took 8s.837ms)
+

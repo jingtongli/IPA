@@ -1,0 +1,12 @@
+LaunchTargetManager/configs/test=org.eclipse.launchbar.core.launchTargetType.local\:Local
+LaunchTargetManager/configs/test_meshcut=org.eclipse.launchbar.core.launchTargetType.local\:Local
+LaunchTargetManager/configs/test_simplify=org.eclipse.launchbar.core.launchTargetType.local\:Local
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/arch=x86_64
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/name=Local
+LaunchTargetManager/org.eclipse.launchbar.core.launchTargetType.local,Local/os=linux
+configDescList=org.eclipse.launchbar.core.descriptorType.default\:hh,org.eclipse.launchbar.core.descriptorType.default\:point,org.eclipse.launchbar.core.descriptorType.default\:test_meshcut,org.eclipse.launchbar.core.descriptorType.default\:IPA_Simplify.o,org.eclipse.launchbar.core.descriptorType.default\:test_ori,org.eclipse.launchbar.core.descriptorType.default\:test,org.eclipse.launchbar.core.descriptorType.default\:test_simplify
+eclipse.preferences.version=1
+org.eclipse.launchbar.core.descriptorType.default\:hh/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:hh/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local
+org.eclipse.launchbar.core.descriptorType.default\:point/activeLaunchMode=run
+org.eclipse.launchbar.core.descriptorType.default\:point/activeLaunchTarget=org.eclipse.launchbar.core.launchTargetType.local\:Local

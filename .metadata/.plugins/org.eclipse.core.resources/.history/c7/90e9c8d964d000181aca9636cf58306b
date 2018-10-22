@@ -1,0 +1,11 @@
+#include "MyMesh.h"
+#include <OpenMesh/Tools/Decimater/DecimaterT.hh>
+#include <OpenMesh/Tools/Decimater/ModQuadricT.hh>
+
+namespace MeshQuadricError
+{
+	typedef OpenMesh::Decimater::DecimaterT<MyMesh> Decimater;
+	typedef OpenMesh::Decimater::ModQuadricT<MyMesh>::Handle
+
+
+}

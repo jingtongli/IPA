@@ -1,0 +1,8 @@
+07:36:13 **** Incremental Build of configuration Default for project LikelihoodImage ****
+make all 
+[0;32m Archive...[0m
+ar rcs liblikelihoodimage.a LikelihoodImage.o
+[0;32m...Done[0m
+
+07:36:13 Build Finished. 0 errors, 0 warnings. (took 470ms)
+

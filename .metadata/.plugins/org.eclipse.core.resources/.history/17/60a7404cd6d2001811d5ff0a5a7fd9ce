@@ -1,0 +1,20 @@
+#include "MeshDecimater.h"
+#include <iostream>
+
+namespace MeshSimplify
+{
+
+	void DecimaterQuadricT(MyMesh &mesh, float maxerror)
+	{
+	    Decimater dec(mesh);
+	    HModQuadric hModQuadric;
+	    dec.add(hModQuadric);
+	    dec.module(hModQuadric).set_max_err(maxerror);
+	    dec.module(hModQuadric).set_binary(false);
+	    bool succ=dec.initialize();
+	    if(!succ){std::cout<<"\nMeshSimplify error."; exit(1); }
+	    dec.decimate();
+	    mesh.garbage_collection();
+   	}
+
+}

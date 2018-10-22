@@ -1,0 +1,57 @@
+#include "../Ori/Orientation.h"
+#include "../MeshUtil/MyMesh.h"
+#include "../MeshUtil/MeshIO.h"
+#include "../MeshUtil/MeshSimplify.h"
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/opencv.hpp>
+#include <string>
+#include <iostream>
+
+void dosomethingmesh(MyMesh& mesh)
+{
+	MeshSimplify::simplifyQuadric(mesh, 0.3);
+}
+
+
+
+int main()
+{
+	// Loading images
+	std::string imgloadname("/home/jingtongli/Desktop/ipa/data/0.jpg");
+	cv::Mat img=cv::imread(imgloadname);
+
+	// Edge images
+	cv::Mat dstimg, edge;
+	//dstimg.create(img.size(), img.type());
+	cv::blur(img, edge, cv::Size(3, 3));
+	cv::Canny(edge, dstimg, 100, 200, 3);
+
+	// Display images
+	cv::namedWindow("Original");
+	cv::imshow("Original",img);
+	cv::namedWindow("Edge");
+	cv::imshow("Edge", dstimg);
+
+	// Loading ori
+	std::string oriloadname("/home/jingtongli/Desktop/ipa/data/0.ori");
+	Orientation ori(oriloadname);
+
+	// Loading mesh
+	MyMesh mesh;
+	std::string meshloadname("/home/jingtongli/Desktop/ipa/data/Mesh_cut.ply");
+	MeshIO::readMesh(mesh, meshloadname, false, false);
+
+	// Do something
+	//dosomethingmesh(mesh);
+	MeshSimplify::simplifyQuadric(mesh, 0.3);
+
+	// Write mesh
+	std::string meshsavename("/home/jingtongli/Desktop/ipa/data/Mesh_out.ply");
+	MeshIO::writeMesh(mesh, meshsavename, false, false);
+
+	std::cout<<std::endl<<"Finished";
+
+	cv::waitKey(0);
+
+	return 1;
+}

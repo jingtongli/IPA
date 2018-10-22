@@ -1,0 +1,15 @@
+../data/0.ori
+../data/1.ori
+../data/2.ori
+../data/3.ori
+../data/4.ori
+../data/5.ori
+../data/6.ori
+../data/7.ori
+../data/8.ori
+../data/9.ori
+../data/10.ori
+../data/11.ori
+../data/12.ori
+../data/13.ori
+../data/14.ori
