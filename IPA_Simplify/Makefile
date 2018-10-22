@@ -16,7 +16,7 @@ LFLAGS =  $(BASELIBPATH)   -lprsori -lmeshutil \
 	  $(BOOSTFILESYSTEMLIBPATHSTAT)
 
 
-OBJECTS = 
+OBJECTS =  
 
 all: lib exe
 lib: $(OBJECTS)

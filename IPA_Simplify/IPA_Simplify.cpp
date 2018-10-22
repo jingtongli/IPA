@@ -9,7 +9,6 @@
 #include <iostream>
 
 
-
 int main()
 {
 	// Loading images
@@ -76,6 +75,7 @@ int main()
         n[1]=mesh.normal( *v_it )[1];
         n[2]=mesh.normal( *v_it )[2];
     }
+
 
     // Project the selected vertices to images
 

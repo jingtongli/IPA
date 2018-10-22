@@ -8,5 +8,4 @@ namespace MeshDecimater
 	typedef OpenMesh::Decimater::ModQuadricT<MyMesh>::Handle HModQuadric;
 
 	void DecimaterQuadricT(MyMesh &mesh, double max_err, double err_tolerance_factor);
-
 }
