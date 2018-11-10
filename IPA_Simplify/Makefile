@@ -16,7 +16,7 @@ LFLAGS =  $(BASELIBPATH)   -lprsori -lmeshutil \
 	  $(BOOSTFILESYSTEMLIBPATHSTAT)
 
 
-OBJECTS =  
+OBJECTS = IPA_LoadList.o IPA_Processing.o
 
 all: lib exe
 lib: $(OBJECTS)
@@ -24,6 +24,15 @@ exe: IPA_Simplify.o test_simplify
 
 .PHONY:  all
 
+IPA_Processing.o: IPA_Processing.h IPA_Processing.cpp
+	@echo ${cc_green} Compile IPA_Processing.cpp ...  ${cc_nocolor}
+	${CC} ${CFLAGS} -c IPA_Processing.cpp ${IFLAGS}
+	@echo ${cc_green}... DONE${cc_nocolor}
+
+IPA_LoadList.o: IPA_LoadList.h IPA_LoadList.cpp
+	@echo ${cc_green} Compile IPA_LoadList.cpp ...  ${cc_nocolor}
+	${CC} ${CFLAGS} -c IPA_LoadList.cpp ${IFLAGS}
+	@echo ${cc_green}... DONE${cc_nocolor}
 
 IPA_Simplify.o: IPA_Simplify.cpp
 	@echo ${cc_green} Compile IPA_Simplify.cpp ...  ${cc_nocolor}

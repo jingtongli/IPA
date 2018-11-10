@@ -1,91 +1,80 @@
 #include "../Ori/Orientation.h"
 #include "../MeshUtil/MyMesh.h"
 #include "../MeshUtil/MeshIO.h"
-#include "../MeshUtil/MeshSimplify.h"
 #include "../MeshUtil/MeshDecimater.h"
+#include "IPA_LoadList.h"
+#include "IPA_Processing.h"
 #include <opencv2/highgui/highgui.hpp>
 #include <opencv2/opencv.hpp>
 #include <string>
+#include <vector>
 #include <iostream>
+#include <math.h>
+#include <numeric>
+
+
+#define PI 3.14159265
+
+cv::Mat src_img, blurred_img, edge_img;
+int lowThreshold = 0;
+const char *SrcTitle = "Original Image";
+const char *CannyTitle = "Canny Edge Image";
+
+void CannyThreshold(int,void*)
+{
+	cv::blur(src_img, blurred_img, cv::Size(3, 3));
+	cv::Canny(blurred_img, edge_img, lowThreshold, lowThreshold*3, 3);
+	cv::imshow(CannyTitle,edge_img);
+ }
 
 
 int main()
 {
-	// Loading images
-	std::string imgloadname("/home/jingtongli/Desktop/ipa/data/0.jpg");
-	cv::Mat img=cv::imread(imgloadname);
-
-	// Edge images
-	cv::Mat dstimg, edge;
-	//dstimg.create(img.size(), img.type());
-	cv::blur(img, edge, cv::Size(3, 3));
-	cv::Canny(edge, dstimg, 100, 200, 3);
-
-	// Display images
-	cv::namedWindow("Original");
-	cv::imshow("Original",img);
-	cv::namedWindow("Edge");
-	cv::imshow("Edge", dstimg);
-
-	// Loading ori
-	std::string oriloadname("/home/jingtongli/Desktop/ipa/data/0.ori");
-	Orientation ori(oriloadname);
-
-	// Get ori
-	Eigen::Vector3d ori_z(3,1);
-	Eigen::MatrixXd ori_P(3,4);
-	ori_z << ori.getR()(2,0),ori.getR()(2,1),ori.getR()(2,2);
-	ori_P << ori.getP();
-	std::cout << ori_z << std::endl << ori_P << std::endl;
-
 	// Loading mesh
 	MyMesh mesh;
-	std::string meshloadname("/home/jingtongli/Desktop/ipa/data/Mesh_cut.ply");
+	std::string meshloadname("../data/Mesh_dense.ply");
 	MeshIO::readMesh(mesh, meshloadname, false, false);
 
 	// Decimate mesh
-	MeshDecimater::DecimaterQuadricT(mesh,1e-8,0.5);
+	// MeshDecimater::DecimaterQuadricT(mesh,1e-8,0.5);
 
-	// Request vertex and face normals
-    mesh.request_vertex_normals();
-    mesh.request_face_normals();
+	// Loading Images and Oris
+	vector<string> images;
+	vector<string> oris;
+	readfile("../data/imglist.txt",images);
+	readfile("../data/orilist.txt",oris);
 
-	// Assure we have vertex normals
-    if (!mesh.has_vertex_normals())
-    {
-    	std::cerr << "ERROR: Standard vertex property 'Normals' not available!\n";
-	    return 1;
+//	// Show images
+//	cv::namedWindow(SrcTitle,cv::WINDOW_AUTOSIZE);
+//	cv::namedWindow(CannyTitle,cv::WINDOW_AUTOSIZE);
+//	cv::createTrackbar( "Threshold:", "Canny Edge Image", &lowThreshold, 255, CannyThreshold);
+//	cv::imshow(SrcTitle, src_img);
+//	CannyThreshold(0,0);
+//	cv::waitKey(0);
+
+	for (int i=0; i<images.size();i++)
+	{
+		src_img = cv::imread(images[i]);
+		Orientation ori(oris[i]);
+
+		// Create edge image
+		cv::blur(src_img, blurred_img, cv::Size(3, 3));
+		cv::Canny(blurred_img, edge_img, lowThreshold, lowThreshold*3, 3);
+
+		// Main Processing
+		float angle_threshold=cos((180-75)*PI/180.0);
+		setVertexNumEdge(mesh, edge_img, ori, angle_threshold,false);
+
 	}
 
-    // Update normals
-    mesh.update_normals();
-
-    // Dispose the face normals
-    mesh.release_face_normals();
-
-    // Compare camera orientation and vertex normals
-
-    for (MyMesh::VertexIter v_it = mesh.vertices_begin();
-         v_it != mesh.vertices_end(); ++v_it)
-    {
-    	std::cout << "Vertex #" << *v_it << ": " << mesh.point( *v_it );
-        std::cout << " has normal: " << mesh.normal( *v_it ) << std::endl;
-        float n[3];
-        n[0]=mesh.normal( *v_it )[0];
-        n[1]=mesh.normal( *v_it )[1];
-        n[2]=mesh.normal( *v_it )[2];
-    }
-
-
-    // Project the selected vertices to images
+	// Assign colors to vertices
+	color3D(mesh);
 
 	// Write mesh
 	std::string meshsavename("/home/jingtongli/Desktop/ipa/data/Mesh_out.ply");
-	MeshIO::writeMesh(mesh, meshsavename, false, false);
+	MeshIO::writeMesh(mesh, meshsavename, true, false);
 
-	std::cout<<std::endl<<"Finished";
+	std::cout << "Finished";
 
-	cv::waitKey(0);
-
-	return 1;
+	return 0;
 }

@@ -12,7 +12,7 @@ struct MyTraits : public OpenMesh::DefaultTraits
 
 	 FaceTraits
 	 {
-	    	 private:
+	     private:
 			 short _labelid;
 			 int _buildingid;
 
@@ -24,6 +24,21 @@ struct MyTraits : public OpenMesh::DefaultTraits
 			const int& buildingid() const {return _buildingid; }
 		 	void setbuildingid(const int& bid) { _buildingid = bid; }
 	 };
+
+	 VertexTraits
+	 	 {
+		 	 private:
+	 			 int _vertexid;
+	 			 short _numEdge;
+
+	 		 public:
+	 			VertexT() : _vertexid(0), _numEdge(0) { }
+	 			const int& vertexid() const {return _vertexid; }
+	 		 	void setvertexid(const int& vid) { _vertexid = vid; }
+
+	 			const short& numEdge() const {return _numEdge; }
+	 		 	void setnumEdge(const short& edge) { _numEdge = edge; }
+	 	 };
 
 
 

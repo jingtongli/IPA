@@ -123,7 +123,7 @@ void faceColorToFaceLabelAudrey(MyMesh &mesh)
 	for(MyMesh::FaceIter f_it=mesh.faces_begin(); f_it!=mesh.faces_end(); ++f_it)
 	{
 	    	MyMesh::Color c=mesh.color(*f_it);
-		if(c==MyMesh::Color(75,255,56));
+		if(c==MyMesh::Color(75,255,56))
 		{
 		    mesh.data(*f_it).setlabelid(4);
 		}

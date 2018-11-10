@@ -10,13 +10,18 @@ LFLAGS =  $(BASELIBPATH) -lprstimer -lmeshmetadata -liolist \
 	  $(OPENCVLIBPATH) $(LIBOCVHIGHGUI) $(LIBOCVCALIB3D) $(LIBOCVIMGPROC) $(LIBOCOBJDETECT)  $(LIBOCVCORE) $(LIBOCVEXTRA)\
 	$(OPENMESHLIBPATH) $(BOOSTFILESYSTEMLIBPATHSTAT) 
 
-OBJECTS = MeshDivide.o MeshSimplify.o MeshDecimater.o MeshFilter.o MeshGeom.o MeshIO.o MeshConv.o
+OBJECTS = ModProjectionT.o MeshDivide.o MeshSimplify.o MeshDecimater.o MeshFilter.o MeshGeom.o MeshIO.o MeshConv.o
 
 .PHONY: all
 all: lib exe
 lib: $(OBJECTS) meshutil.a
 exe: #test_meshcut.o test_meshcut test_meshio test_meshsimplify.o test_meshsimplify
 
+ModProjectionT.o: ModProjectionT.h ModProjectionT.cpp
+	@echo ${cc_green} Compile ModProjectionT.cpp ... ${cc_nocolor}
+	${CC} ${CFLAGS} -c ModProjectionT.cpp ${IFLAGS}
+	@echo ${cc_green}... DONE${cc_nocolor}
+	
 MeshDivide.o: MeshDivide.h MeshDivide.cpp
 	@echo ${cc_green} Compile MeshDivide.cpp ... ${cc_nocolor}
 	${CC} ${CFLAGS} -c MeshDivide.cpp ${IFLAGS}
