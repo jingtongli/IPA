@@ -1,7 +1,5 @@
 # IPA
 
-## Instruction
-
 This is an implementation of "Simplification of large-scale triangle meshes using geometric and radiometric information", which is done within the frame Interdisciplinary Project Work of master program Geomatics at ETH. 
 
 This file contains instructions on how to set up your environment to work with the source code for this project.
